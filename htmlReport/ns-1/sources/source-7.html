@@ -1,0 +1,158 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > WeatherService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">malla.dipesh.journalApp.service</a>
+</div>
+
+<h1>Coverage Summary for Class: WeatherService (malla.dipesh.journalApp.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">WeatherService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    33.3%
+  </span>
+  <span class="absValue">
+    (1/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    23.1%
+  </span>
+  <span class="absValue">
+    (3/13)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package malla.dipesh.journalApp.service;
+&nbsp;
+&nbsp;import malla.dipesh.journalApp.api.response.WeatherResponse;
+&nbsp;import malla.dipesh.journalApp.cache.AppCache;
+&nbsp;import malla.dipesh.journalApp.constant.PlaceHolders;
+&nbsp;import malla.dipesh.journalApp.model.User;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.beans.factory.annotation.Value;
+&nbsp;import org.springframework.http.HttpEntity;
+&nbsp;import org.springframework.http.HttpHeaders;
+&nbsp;import org.springframework.http.HttpMethod;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;import org.springframework.web.client.RestTemplate;
+&nbsp;
+&nbsp;@Service
+&nbsp;public class WeatherService {
+&nbsp;
+&nbsp;    @Value(&quot;${weather.api.key}&quot;)
+&nbsp;    private  String WEATHER_APIKEY;
+&nbsp;
+&nbsp;    private final AppCache appCache;
+&nbsp;    private final RestTemplate restTemplate;
+&nbsp;
+<b class="fc">&nbsp;    public WeatherService(AppCache appCache, RestTemplate restTemplate) {</b>
+<b class="fc">&nbsp;        this.appCache = appCache;</b>
+<b class="fc">&nbsp;        this.restTemplate = restTemplate;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public WeatherResponse getCurrentWeather(String city) {
+<b class="nc">&nbsp;        String url = appCache.APP_CACHE.get(&quot;WEATHER_API&quot;).replace(PlaceHolders.API_KEY, WEATHER_APIKEY).replace(PlaceHolders.CITY, city);</b>
+<b class="nc">&nbsp;        ResponseEntity&lt;WeatherResponse&gt; getResponse = restTemplate.exchange(url, HttpMethod.POST, null, WeatherResponse.class);</b>
+<b class="nc">&nbsp;        return getResponse.getBody();</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    // a bit different than this one is post api
+&nbsp;    public WeatherResponse postCurrentWeather(String city) {
+<b class="nc">&nbsp;        String url = appCache.APP_CACHE.get(&quot;weather_api&quot;).replace(&quot;&lt;apiKey&gt;&quot;, WEATHER_APIKEY).replace(&quot;&lt;city&gt;&quot;, city);</b>
+&nbsp;        // for sending to header
+<b class="nc">&nbsp;        HttpHeaders headers = new HttpHeaders();</b>
+<b class="nc">&nbsp;        headers.set(&quot;Key&quot;, &quot;Value&quot;);</b>
+&nbsp;        //for Post
+<b class="nc">&nbsp;        User user = User.builder().username(&quot;dip&quot;).password(&quot;dip&quot;).build();</b>
+<b class="nc">&nbsp;        HttpEntity&lt;User&gt; entity = new HttpEntity&lt;&gt;(user,headers);</b>
+<b class="nc">&nbsp;        ResponseEntity&lt;WeatherResponse&gt; response = restTemplate.exchange(url, HttpMethod.POST, entity, WeatherResponse.class);</b>
+&nbsp;        // we can handle status code here
+<b class="nc">&nbsp;        return response.getBody();</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-04-14 13:11</div>
+</div>
+</body>
+</html>
